@@ -6,8 +6,24 @@ import openai
 st.set_page_config(page_title="Helpdesk Support Portal", layout="centered")
 st.title("Helpdesk Support Portal Demo")
 
-# Retrieve OpenAI key from Streamlit secrets
-openai.api_key = st.secrets.get("OPENAI_API_KEY", None)
+# Retrieve OpenAI key, with fallback to env var
+api_key = None
+# Try Streamlit secrets first
+try:
+    api_key = st.secrets["OPENAI_API_KEY"]
+except Exception:
+    api_key = os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    st.error(
+        """
+        No OpenAI API key found.
+        - On Streamlit Cloud: add `OPENAI_API_KEY` in Secrets.
+        - Locally: create `.streamlit/secrets.toml` or set `OPENAI_API_KEY` env var.
+        """
+    )
+# Assign to OpenAI
+openai.api_key = api_key
 
 # --- User Inputs ---
 email = st.text_input("Your email address:")
