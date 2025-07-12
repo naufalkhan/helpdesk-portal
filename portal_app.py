@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 # Load environment variables and OpenAI API key
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
-client = openai.OpenAI()
 
 # Streamlit app configuration
 st.set_page_config(page_title="Helpdesk Support Portal", layout="centered")
@@ -36,8 +35,7 @@ if st.button("Report Issue"):
         )
         with st.spinner("Generating AI-powered reply..."):
             try:
-                # Use new OpenAI v1 client interface
-                response = client.chat.completions.create(
+                response = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
                     messages=[
                         {"role": "system", "content": "You are a helpful support agent."},
@@ -55,8 +53,3 @@ if st.button("Report Issue"):
         st.code(generic)
         st.subheader("AI-Powered Personalized Reply")
         st.write(ai_reply)
-
-# To run this:
-# 1) pip install streamlit openai python-dotenv
-# 2) Create .env with OPENAI_API_KEY=sk-...
-# 3) streamlit run portal_app.py
