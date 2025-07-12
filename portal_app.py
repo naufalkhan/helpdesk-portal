@@ -2,6 +2,10 @@ import os
 import streamlit as st
 import openai
 
+# debug!
+st.write("🔑 st.secrets:", dict(st.secrets))
+st.write("🌱 ENV VAR OPENAI_API_KEY:", os.getenv("OPENAI_API_KEY"))
+
 # Streamlit app configuration
 st.set_page_config(page_title="Helpdesk Support Portal", layout="centered")
 st.title("Helpdesk Support Portal Demo")
