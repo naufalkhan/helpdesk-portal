@@ -1,0 +1,6 @@
+# don’t commit secrets
+.env
+
+# Python caches
+__pycache__/
+*.py[cod]
